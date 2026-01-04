@@ -54,7 +54,7 @@ def gsi():
     assistss = 0 if assistss is None else assistss
 
 
-    if killss / 2 < deathss:
+    if killss < deathss:
         prompt = (
         f"Roast me without mercy. I'm playing Counter Strike 2, "
         f"and my stats are {killss} kills, {deathss} deaths, "

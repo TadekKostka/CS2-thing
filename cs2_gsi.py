@@ -3,6 +3,15 @@ import os
 from google import genai
 import pyttsx3
 import time
+import winsound
+killdif = int()
+
+
+ai = int(input("Type 1 if you want AI features: "))
+valorantmode = int(input("Type 1 if you want Valorant Mode: "))
+
+
+
 
 prompt = ("")
 cwd = os.getcwd()
@@ -23,6 +32,7 @@ app = Flask(__name__)
 
 @app.route("/", methods=["POST"])
 def gsi():
+    global killdif
     data = request.json
 
     if not data:
@@ -52,9 +62,10 @@ def gsi():
     killss = 0 if killss is None else killss
     deathss = 0 if deathss is None else deathss
     assistss = 0 if assistss is None else assistss
+    killdif = 0 if killss == 0 else killdif
 
 
-    if killss < deathss:
+    if killss < deathss and ai == 1:
         prompt = (
         f"Roast me without mercy. I'm playing Counter Strike 2, "
         f"and my stats are {killss} kills, {deathss} deaths, "
@@ -62,7 +73,7 @@ def gsi():
     )
 
         response = client.models.generate_content(
-            model='models/gemini-2.5-flash',
+            model='models/gemini-2.0-flash-lite',
             contents={'text': prompt, },
             config={
                 'temperature': 0,
@@ -74,6 +85,11 @@ def gsi():
         print(response.text)
         pyttsx3.speak(response.text)
         time.sleep(120)
+    if killdif != killss and valorantmode == 1:
+        winsound.PlaySound("valomode.wav", winsound.SND_FILENAME)
+        killdif = killss
+
+
 
 
 

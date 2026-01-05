@@ -73,7 +73,7 @@ def gsi():
     )
 
         response = client.models.generate_content(
-            model='models/gemini-2.0-flash-lite',
+            model='gemini-2.5-flash-lite',
             contents={'text': prompt, },
             config={
                 'temperature': 0,

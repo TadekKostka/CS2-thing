@@ -23,8 +23,11 @@ if "Api_Key.txt" in dir_list:
     content = file.read()
     GEMINI_API_KEY = content
 else:
-    print("No API key, go fuck yourself")
-    pyttsx3.speak("No API key, go fuck yourself")
+    if ai == 1:
+        print("No API key found, create Api_Key.txt in this folder and put your api key in there")
+        pyttsx3.speak("No API key, create Api_Key.txt")
+        raise("No Api Key")
+    GEMINI_API_KEY = "none"
     
 
 client = genai.Client(api_key=GEMINI_API_KEY)

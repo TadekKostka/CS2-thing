@@ -169,7 +169,9 @@ def gsi():
     assistss = 0 if assistss is None else assistss
     killdif = 0 if killss == 0 else killdif
     deathdif = 0 if deathss == 0 else deathdif
-
+    burning = 0 if burning is None else burning
+    smoked = 0 if smoked is None else smoked
+    flashed = 0 if flashed is None else flashed
 
     if killss < deathss and ai == 1:
         prompt = (

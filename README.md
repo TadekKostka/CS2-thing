@@ -4,11 +4,13 @@ The script is held up by duct tape so it can break very easily
 
 Plays sounds based on enabled things
 
-AI features turn on Gemini generated roasts that are long af but better than valorant mode death ones, it activates when deaths > kills
+AI features turn on Gemini generated roasts that are long af but better than valorant mode death ones, it activates when you have more deaths than kills
 
 Valorant mode plays a sound when you get a kill or reads a mid at best roast when you die (use for authentic Valorant experince)
 
 Grenade warning plays annoying sound when in a smoke, you get flashed, or burning
+
+Flashing mode flashes a image from "flashes" folder after every kill
 
 gsi.py just prints all the data cs2 sends, made for easier creation and customization
 

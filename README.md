@@ -8,6 +8,8 @@ Valorant mode plays a sound when you get a kill or reads a mid at best roast whe
 
 Grenade warning plays annoying sound when in a smoke, you get flashed, or burning
 
+gsi.py just prints all the data cs2 sends, made for easier creation and customization
+
 Installation
 
 All files for the bot are located in "Bot" folder

@@ -6,7 +6,7 @@ Plays sounds based on enabled things
 
 AI features turn on Gemini generated roasts that are long af but better than valorant mode death ones, it activates when deaths > kills
 
-Valorant mode plays a sound when you get a kill or reads a mid at best roast when you die
+Valorant mode plays a sound when you get a kill or reads a mid at best roast when you die (use for authentic Valorant experince)
 
 Grenade warning plays annoying sound when in a smoke, you get flashed, or burning
 

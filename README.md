@@ -1,5 +1,7 @@
 CS2 Roast Bot / Sound Bot / I dont fucking know what Bot
 
+The script is held up by duct tape so it can break very easily
+
 Plays sounds based on enabled things
 
 AI features turn on Gemini generated roasts that are long af but better than valorant mode death ones, it activates when deaths > kills
@@ -60,6 +62,8 @@ For custom roasts, edit the roasts list in the Python script.
 License
 
 MIT license… but seriously, it’s a roast bot… feel free to chaos, hmm hmm
+
+Im gonna play war thunder, if i see any issues reported i might fix them
 
 Readme was kinda written by Chat GPT
 

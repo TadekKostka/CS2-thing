@@ -5,13 +5,91 @@ import pyttsx3
 import time
 import winsound
 import random
+import tkinter as tk
+import ctypes
+from multiprocessing import Process
+import threading
 killdif = int()
 deathdif = int()
 
-ai = int(input("Type 1 if you want AI features: "))
-valorantmode = int(input("Type 1 if you want Valorant Mode: "))
-grenadewarningmode = int(input("Type 1 if you want Grenade Warnings: "))
+cwdpath = os.getcwd()
+imgpath = os.path.join(cwdpath, "flashes")
+imgfiles = os.listdir(imgpath)
 
+print(imgpath, imgfiles)
+
+def playsound(file):
+    winsound.PlaySound(file, winsound.SND_FILENAME)
+
+def threadsound(sound):
+    threading.Thread(target=playsound, args=(sound,), daemon=True).start()
+
+def flashimagine():
+    STEPS = 50
+    FADE_DURATION = 1000
+    START_ALPHA = 1.0
+    END_ALPHA = 0.0
+    alpha_step = (START_ALPHA - END_ALPHA) / STEPS
+    step_delay = FADE_DURATION // STEPS
+
+    
+    flashes = random.choice(imgfiles)
+    useflashimage = os.path.join(imgpath, flashes)
+
+    root = tk.Tk()
+    root.overrideredirect(True)
+    root.attributes("-topmost", True)
+    root.attributes("-alpha", START_ALPHA)
+    root.attributes("-transparentcolor", "black")
+    root.update_idletasks() 
+
+    img = tk.PhotoImage(file=useflashimage)
+    label = tk.Label(root, image=img, bg="black")
+    label.image = img
+    label.pack(fill="both", expand=True)
+
+    screenwidth = root.winfo_screenwidth()
+    screenheight = root.winfo_screenheight()
+    imgwidth = img.width()
+    imghieght = img.height()
+    centrewidth = (screenwidth - imgwidth) // 2
+    centrehight = (screenheight - imghieght) // 2
+
+    root.geometry(f"{imgwidth}x{imghieght}+{centrewidth}+{centrehight}")
+
+    
+    hwnd = ctypes.windll.user32.GetParent(root.winfo_id())
+    GWL_EXSTYLE = -20
+    WS_EX_LAYERED = 0x00080000
+    WS_EX_TRANSPARENT = 0x00000020
+    WS_EX_NOACTIVATE = 0x08000000
+
+    style = ctypes.windll.user32.GetWindowLongW(hwnd, GWL_EXSTYLE)
+    ctypes.windll.user32.SetWindowLongW(
+        hwnd,
+        GWL_EXSTYLE,
+        style | WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_NOACTIVATE
+    )
+
+    
+    def fade(step=0):
+        if step > STEPS:
+            root.destroy()
+            return
+        new_alpha = START_ALPHA - step * alpha_step
+        root.attributes("-alpha", max(new_alpha, 0))
+        root.after(step_delay, fade, step + 1)
+
+    root.after(100, fade)
+    root.mainloop()
+
+p = Process(target=flashimagine)
+p.start
+
+ai = int(input("Type 1 for AI features: "))
+valorantmode = int(input("Type 1 for Valorant Mode: "))
+grenadewarningmode = int(input("Type 1 for Grenade Warnings: "))
+flashmode = int(input("Type 1 for Flashing Mode: "))
 
 
 prompt = ("")
@@ -113,10 +191,14 @@ def gsi():
         print(response.text)
         pyttsx3.speak(response.text)
         time.sleep(120)
-    if killdif != killss and valorantmode == 1:
-        winsound.PlaySound("valomode.wav", winsound.SND_FILENAME)
+    if killdif != killss:
         killdif = killss
-        print("UwU :3")
+        if valorantmode == 1:
+            threadsound("valomode.wav")
+            print("UwU :3")
+        if flashmode == 1:
+            flashimagine()
+        
     if deathdif != deathss and valorantmode == 1:
         pyttsx3.speak(random.choice(roasts))
         print("U died dumbahh")

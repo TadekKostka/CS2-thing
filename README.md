@@ -1,9 +1,16 @@
-CS2 Roast Bot
+CS2 Roast Bot / Sound Bot / I dont fucking know what Bot
 
-This is a brutal roast bot for Counter-Strike 2, made in Python 3.13.9.
-It insults players, reads the roast aloud, and even plays a beep… chaos incarnate, uhh…
+Plays sounds based on enabled things
+
+AI features turn on Gemini generated roasts that are long af but better than valorant mode death ones, it activates when deaths > kills
+
+Valorant mode plays a sound when you get a kill or reads a mid at best roast when you die
+
+Grenade warning plays annoying sound when in a smoke, you get flashed, or burning
 
 Installation
+
+All files for the bot are located in "Bot" folder
 
 Run this command to get all required Python packages:
 
@@ -28,7 +35,7 @@ How to Use
 
 Start the bot with:
 
-python roast_bot.py
+python cs2soundbot.py
 
 
 Press the button in the web interface to get a random roast.
@@ -47,6 +54,13 @@ Make sure Python 3.13.9 or newer is installed.
 
 For custom roasts, edit the roasts list in the Python script.
 
+
 License
+
 MIT license… but seriously, it’s a roast bot… feel free to chaos, hmm hmm
-Readme was written by chat gpt
+
+Readme was kinda written by Chat GPT
+
+(Chat GPT wrote the tutorial)
+
+

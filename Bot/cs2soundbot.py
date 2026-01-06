@@ -7,10 +7,11 @@ import winsound
 import random
 import tkinter as tk
 import ctypes
-from multiprocessing import Process
+from multiprocessing import Process, freeze_support
 import threading
 killdif = int()
 deathdif = int()
+playername = None
 
 cwdpath = os.getcwd()
 imgpath = os.path.join(cwdpath, "flashes")
@@ -84,7 +85,7 @@ def flashimagine():
     root.mainloop()
 
 p = Process(target=flashimagine)
-p.start
+p.start()
 
 ai = int(input("Type 1 for AI features: "))
 valorantmode = int(input("Type 1 for Valorant Mode: "))
@@ -128,6 +129,7 @@ def gsi():
     ]
     global killdif
     global deathdif
+    global playername
 
 
     data = request.json
@@ -142,7 +144,7 @@ def gsi():
     flashed = state.get("flashed")
     smoked = state.get("smoked")
     burning = state.get("burning")
-
+    
    
 
     print(
@@ -155,8 +157,9 @@ def gsi():
         f"Flashed; {flashed} "
         f"Smoked; {smoked} "
         f"Burning; {burning} "
+        f"Name: {player.get('name')} "
     )
-
+    
     
 
 
@@ -172,48 +175,52 @@ def gsi():
     burning = 0 if burning is None else burning
     smoked = 0 if smoked is None else smoked
     flashed = 0 if flashed is None else flashed
+    playername = player.get('name') if playername is None else playername
 
-    if killss < deathss and ai == 1:
-        prompt = (
-        f"Roast me without mercy. I'm playing Counter Strike 2, "
-        f"and my stats are {killss} kills, {deathss} deaths, "
-        f"and {assistss} assists. Give me all you got, swear and all."
-    )
+    print(playername)
 
-        response = client.models.generate_content(
-            model='gemini-2.5-flash-lite',
-            contents={'text': prompt, },
-            config={
-                'temperature': 0,
-                'top_p': 0.95,
-                'top_k': 20,
-            }
+    if playername == player.get('name'):
+        if killss < deathss and ai == 1:
+            prompt = (
+            f"Roast me without mercy. I'm playing Counter Strike 2, "
+            f"and my stats are {killss} kills, {deathss} deaths, "
+            f"and {assistss} assists. Give me all you got, swear and all."
         )
 
-        print(response.text)
-        pyttsx3.speak(response.text)
-        time.sleep(120)
-    if killdif != killss:
-        killdif = killss
-        if valorantmode == 1:
-            threadsound("valomode.wav")
-            print("UwU :3")
-        if flashmode == 1:
-            flashimagine()
-        
-    if deathdif != deathss and valorantmode == 1:
-        pyttsx3.speak(random.choice(roasts))
-        print("U died dumbahh")
-        deathdif = deathss
-    if flashed > 0 and grenadewarningmode == 1:
-        winsound.PlaySound("flash.wav", winsound.SND_FILENAME)
-        print("Flashed")
-    if burning > 0 and grenadewarningmode == 1:
-        winsound.PlaySound("burning.wav", winsound.SND_FILENAME)
-        print("Burning")
-    if smoked > 0 and grenadewarningmode == 1:
-        winsound.PlaySound("smoked.wav", winsound.SND_FILENAME)
-        print("Smoked")
+            response = client.models.generate_content(
+                model='gemini-2.5-flash-lite',
+                contents={'text': prompt, },
+                config={
+                    'temperature': 0,
+                    'top_p': 0.95,
+                    'top_k': 20,
+                }
+            )
+
+            print(response.text)
+            pyttsx3.speak(response.text)
+            time.sleep(120)
+        if killdif != killss:
+            killdif = killss
+            if valorantmode == 1:
+                threadsound("valomode.wav")
+                print("UwU :3")
+            if flashmode == 1:
+                flashimagine()
+            
+        if deathdif != deathss and valorantmode == 1:
+            #pyttsx3.speak(random.choice(roasts))
+            print("U died dumbahh")
+            deathdif = deathss
+        if flashed > 0 and grenadewarningmode == 1:
+            winsound.PlaySound("flash.wav", winsound.SND_FILENAME)
+            print("Flashed")
+        if burning > 0 and grenadewarningmode == 1:
+            winsound.PlaySound("burning.wav", winsound.SND_FILENAME)
+            print("Burning")
+        if smoked > 0 and grenadewarningmode == 1:
+            winsound.PlaySound("smoked.wav", winsound.SND_FILENAME)
+            print("Smoked")
 
 
 
@@ -229,6 +236,7 @@ def gsi():
 
 if __name__ == "__main__":
     app.run(port=3000)
+    freeze_support()
 
 
 

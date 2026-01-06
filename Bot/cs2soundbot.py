@@ -26,11 +26,6 @@ def playsound(file):
 def threadsound(sound):
     threading.Thread(target=playsound, args=(sound,), daemon=True).start()
 
-def fade(step=0):
-         if step > STEPS:
-            root.destroy()
-            return
-
 def flashimagine():
     STEPS = 50
     FADE_DURATION = 1000
@@ -79,10 +74,13 @@ def flashimagine():
     )
 
     
-    
-    new_alpha = START_ALPHA - step * alpha_step
-    root.attributes("-alpha", max(new_alpha, 0))
-    root.after(step_delay, fade, step + 1)
+    def fade(step=0):
+        if step > STEPS:
+            root.destroy()
+            return
+        new_alpha = START_ALPHA - step * alpha_step
+        root.attributes("-alpha", max(new_alpha, 0))
+        root.after(step_delay, fade, step + 1)
 
     root.after(100, fade)
     root.mainloop()
@@ -92,7 +90,7 @@ if __name__ == "__main__":
     freeze_support()
 
     p = Process(target=flashimagine)
-    #p.start()
+    p.start()
 
     ai = int(input("Type 1 for AI features: "))
     valorantmode = int(input("Type 1 for Valorant Mode: "))

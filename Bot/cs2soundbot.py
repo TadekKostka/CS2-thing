@@ -7,7 +7,7 @@ import winsound
 import random
 import tkinter as tk
 import ctypes
-from multiprocessing import Process, freeze_support
+from multiprocessing import Process, freeze_support, Queue
 import threading
 killdif = int()
 deathdif = int()
@@ -18,7 +18,7 @@ cwdpath = os.getcwd()
 imgpath = os.path.join(cwdpath, "flashes")
 imgfiles = os.listdir(imgpath)
 
-print(imgpath, imgfiles)
+
 
 def playsound(file):
     winsound.PlaySound(file, winsound.SND_FILENAME)
@@ -28,7 +28,7 @@ def threadsound(sound):
 
 def flashimagine():
     STEPS = 50
-    FADE_DURATION = 1000
+    FADE_DURATION = 500
     START_ALPHA = 1.0
     END_ALPHA = 0.0
     alpha_step = (START_ALPHA - END_ALPHA) / STEPS
@@ -89,8 +89,8 @@ def flashimagine():
 if __name__ == "__main__":
     freeze_support()
 
-    p = Process(target=flashimagine)
-    p.start()
+    #p = Process(target=flashimagine)
+    #p.start()
 
     ai = int(input("Type 1 for AI features: "))
     valorantmode = int(input("Type 1 for Valorant Mode: "))
@@ -216,6 +216,7 @@ if __name__ == "__main__":
                     print("UwU :3")
                 if flashmode == 1:
                     flashimagine()
+
                 
             if deathdif != deathss and valorantmode == 1:
                 #pyttsx3.speak(random.choice(roasts))

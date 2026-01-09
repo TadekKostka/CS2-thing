@@ -1,5 +1,8 @@
 from PIL import Image
 from random import randint
+import os
+cwd = os.getcwd
+print(cwd)
 id = randint(1, 213769)
 imgformat = input("what is the file name: ")
 scaleimg_name = f"{imgformat}"

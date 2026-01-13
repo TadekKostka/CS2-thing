@@ -7,26 +7,37 @@ import winsound
 import random
 import tkinter as tk
 import ctypes
-from multiprocessing import Process, freeze_support, Queue
+from multiprocessing import Process, Pipe
 import threading
+
 killdif = int()
 deathdif = int()
 playername = None
 steamid = None
-
 cwdpath = os.getcwd()
 imgpath = os.path.join(cwdpath, "flashes")
 imgfiles = os.listdir(imgpath)
+conn = None
 
 
 
 def playsound(file):
     winsound.PlaySound(file, winsound.SND_FILENAME)
 
-def threadsound(sound):
-    threading.Thread(target=playsound, args=(sound,), daemon=True).start()
+def flashsend(conn):
+    conn.send("FLASH")
+
+def flasherloop(conn):
+    print("Process Intialized")
+    while True:
+        msgrevc = conn.recv()
+        if msgrevc == "FLASH":
+            flashimagine()
+            msgrevc = None
+
 
 def flashimagine():
+    print("flash")
     STEPS = 50
     FADE_DURATION = 500
     START_ALPHA = 1.0
@@ -87,16 +98,17 @@ def flashimagine():
 
 
 if __name__ == "__main__":
-    freeze_support()
-
-    #p = Process(target=flashimagine)
-    #p.start()
 
     ai = int(input("Type 1 for AI features: "))
     valorantmode = int(input("Type 1 for Valorant Mode: "))
     grenadewarningmode = int(input("Type 1 for Grenade Warnings: "))
     flashmode = int(input("Type 1 for Flashing Mode: "))
 
+    if flashmode == 1:
+        parent_conn, child_conn = Pipe()
+        p = Process(target=flasherloop, args=(child_conn,))
+        p.start()
+        time.sleep(3)
 
     prompt = ("")
     cwd = os.getcwd()
@@ -211,15 +223,17 @@ if __name__ == "__main__":
                 time.sleep(120)
             if killdif != killss:
                 killdif = killss
-                if valorantmode == 1:
-                    threadsound("valomode.wav")
-                    print("UwU :3")
                 if flashmode == 1:
-                    flashimagine()
+                    flashsend(parent_conn)
+                if valorantmode == 1:
+                    winsound.PlaySound("valomode.wav", winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_PURGE)
+                    print("UwU :3")
+                    
+
 
                 
             if deathdif != deathss and valorantmode == 1:
-                #pyttsx3.speak(random.choice(roasts))
+                pyttsx3.speak("U died dumbass")
                 print("U died dumbahh")
                 deathdif = deathss
             if flashed > 0 and grenadewarningmode == 1:

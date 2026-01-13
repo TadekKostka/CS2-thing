@@ -1,26 +1,30 @@
 from PIL import Image
 from random import randint
 import os
-cwd = os.getcwd
+cwd = os.getcwd()
 print(cwd)
-id = randint(1, 213769)
-imgformat = input("what is the file name: ")
-scaleimg_name = f"{imgformat}"
+
+input("Are you sure you want this?")
+imgformat = os.listdir(cwd)
+imgformat.remove("imagescaler.py")
 
 print(imgformat)
 
-imgname = f"image{id}.png"
-# Wczytaj obraz (dowolny format)
-img = Image.open(scaleimg_name)  # tutaj dowolny plik
-nowa_wys = 400
-# Nowa wysokość
-w, h = img.size
-# Oblicz proporcjonalną wysokość
-nowa_szer = int(w / h * nowa_wys)
+for scaleimg_name in imgformat:
 
-# Zmień rozmiar
-img = img.resize((nowa_szer, nowa_wys))
+    id = randint(1, 213769)
+    imgname = f"image67{id}.png"
+    # Wczytaj obraz (dowolny format)
+    img = Image.open(scaleimg_name)  # tutaj dowolny plik
+    nowa_wys = 1080
+    # Nowa wysokość
+    w, h = img.size
+    # Oblicz proporcjonalną wysokość
+    nowa_szer = int(w / h * nowa_wys)
+
+    # Zmień rozmiar
+    img = img.resize((nowa_szer, nowa_wys))
 
 
-# Zapisz jako PNG (automatyczne konwertowanie)
-img.save(imgname, format="PNG")
+    # Zapisz jako PNG (automatyczne konwertowanie)
+    img.save(imgname, format="PNG")

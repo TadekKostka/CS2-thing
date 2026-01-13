@@ -1,4 +1,4 @@
-CS2 Roast Bot / Sound Bot / I dont fucking know what Bot
+CS2 Thing (dont know what to call this)
 
 The script is held up by duct tape so it can break very easily
 
@@ -19,6 +19,7 @@ Installation
 All files for the bot are located in "Bot" folder
 
 Run this command to get all required Python packages:
+
 
 pip install flask google-genai pyttsx3
 
@@ -41,25 +42,20 @@ How to Use
 
 Start the bot with:
 
-python cs2soundbot.py
+python cs2thing.py
 
 
 Press the button in the web interface to get a random roast.
 
 The roast will be spoken out loud via pyttsx3.
 
-A beep will sound for dramatic effect using winsound.
-
 Works alongside CS2 events if the config is correctly installed.
 
 Notes
 
-Roasts are savage… no mercy.
+screentest.py included to check your screen resolution (the thing is made for 1920x1080)
 
 Make sure Python 3.13.9 or newer is installed.
-
-For custom roasts, edit the roasts list in the Python script.
-
 
 License
 
@@ -67,8 +63,5 @@ MIT license… but seriously, it’s a roast bot… feel free to chaos, hmm hmm
 
 Im gonna play war thunder, if i see any issues reported i might fix them
 
-Readme was kinda written by Chat GPT
-
-(Chat GPT wrote the tutorial)
-
+Not hiding chat gpt helped me make this, as can be seen by the gsi.py
 

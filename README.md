@@ -1,68 +1,53 @@
-CS2 Thing (dont know what to call this)
+# CS2 Roast Bot
 
-The script is held up by duct tape so it can break very easily
+A chaotic Counter-Strike 2 assistant that monitors your gameplay via Game State Integration (GSI) and reacts to game events in real-time. Warning: The code is currently held together by duct tape and sheer willpower. It might break easily!
 
-Plays sounds based on enabled things
+## Features
 
-AI features turn on Gemini generated roasts that are long af but better than valorant mode death ones, it activates when you have more deaths than kills
+* **Gemini AI Roasts:** When your deaths exceed your kills, the bot activates Google Gemini to generate long, brutal, and highly personalized roasts.
+* **Valorant Mode:** Experience the authentic Valorant toxicity. Plays a sound on every kill and reads a "mid at best" roast every time you die.
+* **Grenade Warnings:** Plays an incredibly annoying sound whenever you are stuck inside a smoke, blinded by a flashbang, or burning in a molotov.
+* **Flashing Mode:** Flashes a random image from the "flashes" folder after every kill (supports 1920x1080 resolution).
 
-Valorant mode plays a sound when you get a kill or reads a mid at best roast when you die (use for authentic Valorant experince)
+---
 
-Grenade warning plays annoying sound when in a smoke, you get flashed, or burning
+##  Installation & Setup
 
-Flashing mode flashes a image from "flashes" folder after every kill
+All core files for the bot are located inside the "Bot" folder.
 
-gsi.py just prints all the data cs2 sends, made for easier creation and customization
+### 1. Prerequisites
+Make sure you have Python 3.13.9 or newer installed.
 
-Installation
-
-All files for the bot are located in "Bot" folder
-
-Run this command to get all required Python packages:
-
+### 2. Install Dependencies
+Run the following command in your terminal to install all required packages:
 
 pip install flask google-genai pyttsx3 pygame
 
-
-
-
-
-Configuration
-
-Place the file gamestate_integration_python.cfg in:
+### 3. CS2 Game State Integration (GSI) Configuration
+To allow the bot to receive real-time events from Counter-Strike 2, copy the "gamestate_integration_python.cfg" file and paste it into your CS2 configuration directory:
 
 C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\game\csgo\cfg
 
+### 4. API Key Configuration
+1. Create a plain text file named "Api_Key.txt" inside the "Bot" folder.
+2. Paste your Google GenAI API Key into this file.
+(If the key is missing, the bot will notify you via Text-to-Speech and throw an error at startup.)
 
-so the bot can receive game events.
+---
 
-Create a text file named Api_Key.txt in the bot folder and paste your Google GenAI API key in it.
-The bot will automatically read it at startup. If missing, it will alert you via speech and raise an error.
+## How to Use
 
-How to Use
+1. Launch the bot by running:
+   python cs2thing.py
+2. Open the web interface.
+3. Click the button in the web UI to trigger a random roast manually, or just play CS2 and let the bot roast your bad plays automatically via pyttsx3.
 
-Start the bot with:
+Note: If the visual effects look misaligned, run "screentest.py" to check your resolution. The overlay features are currently hardcoded for 1920x1080.
 
-python cs2thing.py
+---
 
+## Credits & License
 
-Press the button in the web interface to get a random roast.
-
-The roast will be spoken out loud via pyttsx3.
-
-Works alongside CS2 events if the config is correctly installed.
-
-Notes
-
-screentest.py included to check your screen resolution (the thing is made for 1920x1080)
-
-Make sure Python 3.13.9 or newer is installed.
-
-License
-
-MIT license… but seriously, it’s a roast bot… feel free to chaos
-
-Im gonna play war thunder, if i see any issues reported i might fix them
-
-Not hiding chat gpt helped me make this, as can be seen by the gsi.py
-
+* **License:** MIT License. It's a roast bot—do whatever chaos you want with it!
+* **Acknowledgment:** Not gonna hide it—ChatGPT helped a lot with this, especially with gsi.py. 
+* **Support:** I'm probably playing War Thunder right now. If you open an issue, I might look at it and fix it later... maybe.

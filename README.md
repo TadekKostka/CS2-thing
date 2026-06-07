@@ -1,4 +1,4 @@
-# CS2 Roast Bot
+# CS2 Sensory overload
 
 A chaotic Counter-Strike 2 assistant that monitors your gameplay via Game State Integration (GSI) and reacts to game events in real-time. Warning: The code is currently held together by duct tape and sheer willpower. It might break easily!
 

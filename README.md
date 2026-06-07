@@ -21,10 +21,11 @@ All files for the bot are located in "Bot" folder
 Run this command to get all required Python packages:
 
 
-pip install flask google-genai pyttsx3
+pip install flask google-genai pyttsx3 pygame
 
 
-winsound and random are built into Python, no installation required, hmm hmm…
+
+
 
 Configuration
 
@@ -59,7 +60,7 @@ Make sure Python 3.13.9 or newer is installed.
 
 License
 
-MIT license… but seriously, it’s a roast bot… feel free to chaos, hmm hmm
+MIT license… but seriously, it’s a roast bot… feel free to chaos
 
 Im gonna play war thunder, if i see any issues reported i might fix them
 

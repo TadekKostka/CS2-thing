@@ -8,8 +8,14 @@ import random
 import tkinter as tk
 import ctypes
 from multiprocessing import Process, Pipe
-import threading
+from pygame import mixer
 
+#All values that had to be set from the start
+ai = 1
+valorantmode = 0
+grenadewarningmode = 0
+flashmode = 0
+msgrevc = None
 killdif = int()
 deathdif = int()
 playername = None
@@ -18,8 +24,18 @@ cwdpath = os.getcwd()
 imgpath = os.path.join(cwdpath, "flashes")
 imgfiles = os.listdir(imgpath)
 conn = None
+SWITCHES = {'Ai Additions', 'Valorant Mode', 'Grenade Warnings', 'After Kill Flashes'}
 
 
+#All the def's
+def run_gui(conn):
+    root = tk.Tk()
+    vars = {k: tk.IntVar(value=0) for k in SWITCHES}
+    for k, v in vars.items():
+        tk.Checkbutton(root, text=k, variable=v,
+            command=lambda: conn.send({k: v.get() for k, v in vars.items()})
+        ).pack(anchor="w")
+    root.mainloop()
 
 def playsound(file):
     winsound.PlaySound(file, winsound.SND_FILENAME)
@@ -96,20 +112,24 @@ def flashimagine():
     root.after(100, fade)
     root.mainloop()
 
-
+#Main process
 if __name__ == "__main__":
 
-    ai = int(input("Type 1 for AI features: "))
-    valorantmode = int(input("Type 1 for Valorant Mode: "))
-    grenadewarningmode = int(input("Type 1 for Grenade Warnings: "))
-    flashmode = int(input("Type 1 for Flashing Mode: "))
 
-    if flashmode == 1:
-        parent_conn, child_conn = Pipe()
-        p = Process(target=flasherloop, args=(child_conn,))
-        p.start()
-        time.sleep(3)
 
+
+
+
+    parent_conn2, child_conn2 = Pipe()
+    p2 = Process(target=run_gui, args=(child_conn2,), daemon=True)
+    p2.start()
+
+    
+
+    parent_conn, child_conn = Pipe()
+    p = Process(target=flasherloop, args=(child_conn,))
+    p.start()
+    print()
     prompt = ("")
     cwd = os.getcwd()
     path = cwd
@@ -124,6 +144,9 @@ if __name__ == "__main__":
             pyttsx3.speak("No API key, create Api_Key.txt")
             raise("No Api Key")
         GEMINI_API_KEY = "none"
+    ai = 0
+    mixer.init()
+    mixer.set_num_channels(16)
         
 
     client = genai.Client(api_key=GEMINI_API_KEY)
@@ -132,6 +155,7 @@ if __name__ == "__main__":
 
     @app.route("/", methods=["POST"])
     def gsi():
+
         roasts = [
             "Hey, even in hell nobody wanted you at the party, uhh...",
             "Congrats, now you can finally be useless enough that nobody sees you.",
@@ -144,12 +168,35 @@ if __name__ == "__main__":
             "Congrats, even your shadow doesn’t want to remember you.",
             "In the afterlife they said: 'Relax, nobody asked about you.'"
         ]
+
         global killdif
         global deathdif
         global playername
         global steamid
-
-
+        global ai       
+        global flashmode 
+        global valorantmode
+        global grenadewarningmode
+        while parent_conn2.poll():
+            Switches2 = parent_conn2.recv()
+            print(Switches2)
+            print("Switche 2 ", Switches2)
+            if Switches2['Ai Additions'] == 1:
+                ai = 1
+            else:
+                ai = 0
+            if Switches2['After Kill Flashes'] == 1:
+                flashmode = 1
+            else:
+                flashmode = 0
+            if Switches2['Valorant Mode'] == 1:
+                valorantmode = 1
+            else:
+                valorantmode = 0
+            if Switches2['Grenade Warnings'] == 1:
+                grenadewarningmode = 1
+            else:
+                grenadewarningmode = 0
         data = request.json
 
         if not data:
@@ -179,7 +226,6 @@ if __name__ == "__main__":
             f"SteamID: {player.get('steamid')} "
             f"Activity: {player.get('activity')} "
         )
-        
         
 
 
@@ -226,7 +272,8 @@ if __name__ == "__main__":
                 if flashmode == 1:
                     flashsend(parent_conn)
                 if valorantmode == 1:
-                    winsound.PlaySound("valomode.wav", winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_PURGE)
+                    sound = mixer.Sound("valomode.wav")
+                    sound.play()
                     print("UwU :3")
                     
 
@@ -237,13 +284,14 @@ if __name__ == "__main__":
                 print("U died dumbahh")
                 deathdif = deathss
             if flashed > 0 and grenadewarningmode == 1:
-                winsound.PlaySound("flash.wav", winsound.SND_FILENAME)
+                sound = mixer.Sound("flash.wav")
+                sound.play()
                 print("Flashed")
             if burning > 0 and grenadewarningmode == 1:
-                winsound.PlaySound("burning.wav", winsound.SND_FILENAME)
+                winsound.PlaySound("burning.wav", winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_NOSTOP)
                 print("Burning")
             if smoked > 0 and grenadewarningmode == 1:
-                winsound.PlaySound("smoked.wav", winsound.SND_FILENAME)
+                winsound.PlaySound("smoked.wav", winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_NOSTOP)
                 print("Smoked")
 
 
@@ -258,8 +306,8 @@ if __name__ == "__main__":
 
 
 
-    if __name__ == "__main__":
-        app.run(port=3000)
+
+    app.run(port=3000)
 
 
 
